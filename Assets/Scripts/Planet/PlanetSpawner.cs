@@ -34,9 +34,21 @@ public class PlanetSpawner : MonoBehaviour
 
         alturaUltimoPlaneta = player.position.y - 2f;
 
+        Planet primeiroPlaneta = null;
+
         for (int i = 0; i < planetasIniciais; i++)
         {
-            SpawnPlaneta();
+            Planet planetaCriado = SpawnPlaneta();
+
+            if (i == 0)
+                primeiroPlaneta = planetaCriado;
+        }
+
+        // Faz o player iniciar já orbitando o primeiro planeta
+        if (primeiroPlaneta != null)
+        {
+            PlayerController controller = player.GetComponent<PlayerController>();
+            controller.IniciarEmOrbita(primeiroPlaneta.transform);
         }
     }
 
@@ -50,7 +62,7 @@ public class PlanetSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnPlaneta()
+    private Planet SpawnPlaneta()
     {
         float distanciaY = Random.Range(distanciaVerticalMin, distanciaVerticalMax);
         alturaUltimoPlaneta += distanciaY;
@@ -73,6 +85,8 @@ public class PlanetSpawner : MonoBehaviour
         {
             planetScript.ConfigurarPlaneta(planetSprites[indiceSprite]);
         }
+
+        return planetScript;
     }
 
     private int EscolherSpriteSemRepeticao()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerOrbit))]
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerOrbit orbit;
 
+    private bool estavaPressionando;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -28,26 +31,31 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (estadoAtual == PlayerState.Orbiting)
-        {
-            ControlarVelocidadeOrbita();
+        if (estadoAtual != PlayerState.Orbiting)
+            return;
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                Lançar();
-            }
+        bool pressionando = EstaPressionando();
+
+        ControlarVelocidadeOrbita(pressionando);
+
+        // Detecta soltou
+        if (estavaPressionando && !pressionando)
+        {
+            Lancar();
         }
+
+        estavaPressionando = pressionando;
     }
 
-    private void ControlarVelocidadeOrbita()
+    private void ControlarVelocidadeOrbita(bool pressionando)
     {
-        if (Input.GetMouseButton(0))
+        if (pressionando)
             orbit.SetVelocidade(velocidadeOrbitaBase * multiplicadorVelocidade);
         else
             orbit.SetVelocidade(velocidadeOrbitaBase);
     }
 
-    private void Lançar()
+    private void Lancar()
     {
         estadoAtual = PlayerState.Flying;
 
@@ -55,6 +63,16 @@ public class PlayerController : MonoBehaviour
         orbit.PararOrbita();
 
         rb.linearVelocity = direcaoTangente * forcaLancamento;
+    }
+
+    public void IniciarEmOrbita(Transform planeta)
+    {
+        estadoAtual = PlayerState.Orbiting;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f;
+
+        orbit.IniciarOrbita(planeta);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -68,5 +86,28 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             orbit.IniciarOrbita(planeta.transform);
         }
+    }
+
+    // =============================
+    // INPUT UNIVERSAL (Desktop + Mobile)
+    // =============================
+
+    private bool EstaPressionando()
+    {
+        // Mobile (Toque)
+        if (Touchscreen.current != null)
+        {
+            if (Touchscreen.current.primaryTouch.press.isPressed)
+                return true;
+        }
+
+        // Desktop (Mouse)
+        if (Mouse.current != null)
+        {
+            if (Mouse.current.leftButton.isPressed)
+                return true;
+        }
+
+        return false;
     }
 }
