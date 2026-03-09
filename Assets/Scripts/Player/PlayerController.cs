@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerOrbit))]
@@ -31,6 +32,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Não processa input se o jogo não estiver rodando
+        if (GameManager.Instance == null)
+            return;
+
+        if (GameManager.Instance.EstadoAtual != GameState.Playing)
+            return;
+
         if (estadoAtual != PlayerState.Orbiting)
             return;
 
@@ -38,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
         ControlarVelocidadeOrbita(pressionando);
 
-        // Detecta soltou
+        // Detecta quando o jogador solta o toque/clique
         if (estavaPressionando && !pressionando)
         {
             Lancar();
@@ -60,6 +68,7 @@ public class PlayerController : MonoBehaviour
         estadoAtual = PlayerState.Flying;
 
         Vector2 direcaoTangente = orbit.ObterDirecaoTangente();
+
         orbit.PararOrbita();
 
         rb.linearVelocity = direcaoTangente * forcaLancamento;
@@ -84,28 +93,60 @@ public class PlayerController : MonoBehaviour
             estadoAtual = PlayerState.Orbiting;
 
             rb.linearVelocity = Vector2.zero;
+
             orbit.IniciarOrbita(planeta.transform);
         }
     }
 
-    // =============================
-    // INPUT UNIVERSAL (Desktop + Mobile)
-    // =============================
+    // =================================================
+    // INPUT UNIVERSAL (MOBILE + DESKTOP)
+    // =================================================
 
     private bool EstaPressionando()
     {
-        // Mobile (Toque)
+        if (ClickOuToqueNaUI())
+            return false;
+
+        // TOUCH (Mobile)
         if (Touchscreen.current != null)
         {
             if (Touchscreen.current.primaryTouch.press.isPressed)
                 return true;
         }
 
-        // Desktop (Mouse)
+        // MOUSE (Desktop)
         if (Mouse.current != null)
         {
             if (Mouse.current.leftButton.isPressed)
                 return true;
+        }
+
+        return false;
+    }
+
+    // =================================================
+    // DETECTAR SE INPUT FOI NA UI
+    // =================================================
+
+    private bool ClickOuToqueNaUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        // Mouse
+        if (EventSystem.current.IsPointerOverGameObject())
+            return true;
+
+        // Touch
+        if (Touchscreen.current != null)
+        {
+            if (Touchscreen.current.primaryTouch.press.isPressed)
+            {
+                int touchId = Touchscreen.current.primaryTouch.touchId.ReadValue();
+
+                if (EventSystem.current.IsPointerOverGameObject(touchId))
+                    return true;
+            }
         }
 
         return false;
