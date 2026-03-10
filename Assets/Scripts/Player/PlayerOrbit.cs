@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerOrbit : MonoBehaviour
 {
-    [SerializeField] private float raioOrbita = 1.5f;
+    [SerializeField] private float raioOrbita = 1.3f;
 
     private Transform planetaAtual;
     private float angulo;

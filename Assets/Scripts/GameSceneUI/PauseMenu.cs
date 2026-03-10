@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ public class PauseMenu : MonoBehaviour
 {
     [Header("Painel de Pause")]
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private string nomeCenaMenu = "MenuScene";
 
     [Header("Botão de Áudio")]
     [SerializeField] private Button botaoAudio;
@@ -142,6 +144,12 @@ public class PauseMenu : MonoBehaviour
         iconeAudio.sprite = audioLigado
             ? spriteAudioLigado
             : spriteAudioDesligado;
+    }
+
+    public void VoltarAoMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(nomeCenaMenu);
     }
 
     #endregion
