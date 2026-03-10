@@ -59,4 +59,17 @@ public class PlayerOrbit : MonoBehaviour
 
         return tangente.normalized;
     }
+
+    public Vector2 ObterDirecaoRadial()
+    {
+        // Direção do planeta para o jogador (radial, para fora)
+        float rad = angulo * Mathf.Deg2Rad;
+
+        Vector2 radial = new Vector2(
+            Mathf.Cos(rad),
+            Mathf.Sin(rad)
+        );
+
+        return radial.normalized;
+    }
 }

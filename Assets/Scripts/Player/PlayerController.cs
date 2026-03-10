@@ -67,11 +67,12 @@ public class PlayerController : MonoBehaviour
     {
         estadoAtual = PlayerState.Flying;
 
-        Vector2 direcaoTangente = orbit.ObterDirecaoTangente();
+        // Lançamento perpendicular à órbita (radial, saindo do planeta)
+        Vector2 direcaoLancamento = orbit.ObterDirecaoRadial();
 
         orbit.PararOrbita();
 
-        rb.linearVelocity = direcaoTangente * forcaLancamento;
+        rb.linearVelocity = direcaoLancamento * forcaLancamento;
     }
 
     public void IniciarEmOrbita(Transform planeta)
