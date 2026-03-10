@@ -12,8 +12,8 @@ public class PlanetSpawner : MonoBehaviour
     [SerializeField] private List<Sprite> planetSprites = new List<Sprite>();
 
     [Header("Spawn Config")]
-    [SerializeField] private float distanciaVerticalMin = 2.5f;
-    [SerializeField] private float distanciaVerticalMax = 4.5f;
+    [SerializeField] private float distanciaVerticalMin = 4.0f;
+    [SerializeField] private float distanciaVerticalMax = 6.0f;
     [SerializeField] private float limiteHorizontal = 2.5f;
     [SerializeField] private float distanciaParaSpawn = 15f;
     [SerializeField] private int planetasIniciais = 6;

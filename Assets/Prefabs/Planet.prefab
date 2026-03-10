@@ -140,5 +140,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2114c815b3e96b4596675b124874103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Planet
-  tamanhoMin: 1
-  tamanhoMax: 1.4
+  tamanhoMin: 1.1
+  tamanhoMax: 1.5

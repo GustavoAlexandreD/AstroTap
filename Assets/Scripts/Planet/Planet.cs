@@ -5,8 +5,8 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     [Header("Escala")]
-    [SerializeField] private float tamanhoMin = 1.0f;
-    [SerializeField] private float tamanhoMax = 1.4f;
+    [SerializeField] private float tamanhoMin = 1.1f;
+    [SerializeField] private float tamanhoMax = 1.5f;
 
     private SpriteRenderer spriteRenderer;
     private CircleCollider2D circleCollider;

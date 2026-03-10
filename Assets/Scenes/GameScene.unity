@@ -251,7 +251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT
+  m_text: MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 452fc4906e513074f9d1442058399c0d, type: 2}
   m_sharedMaterial: {fileID: 4598311415818292372, guid: 452fc4906e513074f9d1442058399c0d, type: 2}
@@ -385,8 +385,8 @@ MonoBehaviour:
   - {fileID: 146673551121928475, guid: 634488a155ab1084ab1328af4e12df6e, type: 3}
   - {fileID: -4213063506739987572, guid: 2030f032fac3a6142af460cb864d4655, type: 3}
   - {fileID: -7488496027863226199, guid: a0c882022d710bf45a3fc103eac30a23, type: 3}
-  distanciaVerticalMin: 2.5
-  distanciaVerticalMax: 4.5
+  distanciaVerticalMin: 4
+  distanciaVerticalMax: 6
   limiteHorizontal: 2.5
   distanciaParaSpawn: 15
   planetasIniciais: 6
@@ -1557,7 +1557,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT
+  m_text: MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 452fc4906e513074f9d1442058399c0d, type: 2}
   m_sharedMaterial: {fileID: 4598311415818292372, guid: 452fc4906e513074f9d1442058399c0d, type: 2}
@@ -2425,7 +2425,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT
+  m_text: RETRY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 452fc4906e513074f9d1442058399c0d, type: 2}
   m_sharedMaterial: {fileID: 4598311415818292372, guid: 452fc4906e513074f9d1442058399c0d, type: 2}
