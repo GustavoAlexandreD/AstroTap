@@ -3,23 +3,26 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    public static ScoreManager Instance;
+    
     [SerializeField] private TextMeshProUGUI scoreText;
 
-    private float maiorAltura;
     private int scoreAtual;
 
-    private void Update()
+    private void Awake()
     {
-        if (player == null) return;
-
-        if (player.position.y > maiorAltura)
-        {
-            maiorAltura = player.position.y;
-            scoreAtual = Mathf.FloorToInt(maiorAltura);
-            AtualizarUI();
-        }
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
     }
+
+    public void AdicionarPontos(){
+        scoreAtual++;
+        AtualizarUI();
+    }
+
+    
 
     private void AtualizarUI()
     {

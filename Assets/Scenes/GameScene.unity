@@ -2889,7 +2889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72eeb8ec28f97d4f8a42584c50ee2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
-  player: {fileID: 744331199}
   scoreText: {fileID: 1400919178}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

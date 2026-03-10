@@ -95,6 +95,8 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
 
             orbit.IniciarOrbita(planeta.transform);
+
+            ScoreManager.Instance.AdicionarPontos();
         }
     }
 
