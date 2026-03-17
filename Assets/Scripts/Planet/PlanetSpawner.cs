@@ -14,11 +14,18 @@ public class PlanetSpawner : MonoBehaviour
     [Header("Spawn Config")]
     [SerializeField] private float distanciaVerticalMin = 4.0f;
     [SerializeField] private float distanciaVerticalMax = 6.0f;
-    [SerializeField] private float limiteHorizontal = 2.5f;
     [SerializeField] private float distanciaParaSpawn = 15f;
     [SerializeField] private int planetasIniciais = 6;
 
+    [Header("Segurança de Tela")]
+    [SerializeField] private float raioOrbitaPlayer = 1.3f;
+    [SerializeField] private float margemSeguranca = 0.2f;
+
     private float alturaUltimoPlaneta;
+
+    private Camera cam;
+    private float limiteEsquerda;
+    private float limiteDireita;
 
     private Queue<int> ultimosPlanetas = new Queue<int>();
     private const int historicoMaximo = 3;
@@ -32,6 +39,14 @@ public class PlanetSpawner : MonoBehaviour
             return;
         }
 
+        cam = Camera.main;
+
+        float altura = cam.orthographicSize;
+        float largura = altura * cam.aspect;
+
+        limiteEsquerda = -largura;
+        limiteDireita = largura;
+
         alturaUltimoPlaneta = player.position.y - 2f;
 
         Planet primeiroPlaneta = null;
@@ -44,7 +59,6 @@ public class PlanetSpawner : MonoBehaviour
                 primeiroPlaneta = planetaCriado;
         }
 
-        // Faz o player iniciar já orbitando o primeiro planeta
         if (primeiroPlaneta != null)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
@@ -67,7 +81,19 @@ public class PlanetSpawner : MonoBehaviour
         float distanciaY = Random.Range(distanciaVerticalMin, distanciaVerticalMax);
         alturaUltimoPlaneta += distanciaY;
 
-        float posX = Random.Range(-limiteHorizontal, limiteHorizontal);
+        // 🔥 PREVÊ A ESCALA ANTES DO SPAWN
+        float escalaPrevista = Random.Range(1.1f, 1.5f);
+
+        // 🔥 Calcula raio do planeta baseado na escala
+        float raioPlaneta = 0.5f * escalaPrevista;
+
+        float margemTotal = raioPlaneta + raioOrbitaPlayer + margemSeguranca;
+
+        float minX = limiteEsquerda + margemTotal;
+        float maxX = limiteDireita - margemTotal;
+
+        float posX = Random.Range(minX, maxX);
+
         Vector3 posicaoSpawn = new Vector3(posX, alturaUltimoPlaneta, 0f);
 
         int indiceSprite = EscolherSpriteSemRepeticao();
@@ -83,7 +109,7 @@ public class PlanetSpawner : MonoBehaviour
 
         if (planetScript != null && planetSprites.Count > 0)
         {
-            planetScript.ConfigurarPlaneta(planetSprites[indiceSprite]);
+            planetScript.ConfigurarPlaneta(planetSprites[indiceSprite], escalaPrevista);
         }
 
         return planetScript;
