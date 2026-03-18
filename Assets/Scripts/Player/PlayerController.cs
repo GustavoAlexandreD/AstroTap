@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float multiplicadorVelocidade = 1.8f;
     [SerializeField] private float forcaLancamento = 6f;
 
-    private PlayerState estadoAtual = PlayerState.Flying;
+    public PlayerState EstadoAtual { get; private set; } = PlayerState.Flying;
 
     private Rigidbody2D rb;
     private PlayerOrbit orbit;
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.EstadoAtual != GameState.Playing)
             return;
 
-        if (estadoAtual != PlayerState.Orbiting)
+        if (EstadoAtual != PlayerState.Orbiting)
             return;
 
         bool pressionando = EstaPressionando();
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void Lancar()
     {
-        estadoAtual = PlayerState.Flying;
+        EstadoAtual = PlayerState.Flying;
 
         // Lançamento perpendicular à órbita (radial, saindo do planeta)
         Vector2 direcaoLancamento = orbit.ObterDirecaoRadial();
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public void IniciarEmOrbita(Transform planeta)
     {
-        estadoAtual = PlayerState.Orbiting;
+        EstadoAtual = PlayerState.Orbiting;
 
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0f;
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
         if (planeta != null)
         {
-            estadoAtual = PlayerState.Orbiting;
+            EstadoAtual = PlayerState.Orbiting;
 
             rb.linearVelocity = Vector2.zero;
 

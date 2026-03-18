@@ -8,14 +8,28 @@ public class CameraController : MonoBehaviour
 
     private float maiorAlturaAlcancada;
 
+    private PlayerController playerController;
+
     private void Start()
     {
         maiorAlturaAlcancada = transform.position.y;
+
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+        }
     }
 
     private void LateUpdate()
     {
         if (player == null) return;
+
+        // Só move a câmera quando o player estiver em órbita
+        if (playerController != null &&
+            playerController.EstadoAtual != PlayerController.PlayerState.Orbiting)
+        {
+            return;
+        }
 
         if (player.position.y > maiorAlturaAlcancada)
         {
