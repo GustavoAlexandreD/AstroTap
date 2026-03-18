@@ -82,12 +82,12 @@ public class PlanetSpawner : MonoBehaviour
         alturaUltimoPlaneta += distanciaY;
 
         // 🔥 PREVÊ A ESCALA ANTES DO SPAWN
-        float escalaPrevista = Random.Range(1.1f, 1.5f);
+        float escalaPrevista = Random.Range(0.7f, 1.5f);    //tamanho planeta
 
         // 🔥 Calcula raio do planeta baseado na escala
         float raioPlaneta = 0.5f * escalaPrevista;
 
-        float margemTotal = raioPlaneta + raioOrbitaPlayer + margemSeguranca;
+        float margemTotal = raioPlaneta + raioOrbitaPlayer; //+ margemSeguranca;
 
         float minX = limiteEsquerda + margemTotal;
         float maxX = limiteDireita - margemTotal;
